@@ -1,0 +1,149 @@
+classDiagram
+    class Organization {
+        - name : String
+        - users : List~User~
+        - projects : List~Project~
+        + addUser(user: User) void
+        + addProject(project: Project) void
+        + getProjectByName(name: String) Project
+    }
+
+    Organization *-- User
+    Organization *-- Project
+
+    class User {
+        <<Abstract>>
+        # id : Integer
+        # name : String
+        # username : String
+        # password : String
+        # type : UserType
+        # lastLoginTime : DateTime
+        + verifyPassword(password : String) boolean
+        + recordLogin() void
+        + displayUserInfo() String
+        + changePassword(newPassword : String) void
+    }
+
+    class UserType {
+        <<Enumeration>>
+        ORGANIZER
+        TREASURER
+        SYSTEM_ADMINISTRATOR
+    }
+
+    UserType -- User
+    User <|-- Organizer
+    User <|-- Treasurer
+    User <|-- SystemAdministrator
+
+    class Organizer {
+        - account : PersonalAccount
+        - pendingReimbursements : List~Reimbursement~
+        - completedReimbursements : Queue~Reimbursement~
+        + requestReimbursement(description : String, amount : Double, project : Project) Reimbursement
+        + viewPendingReimbursements() List~Reimbursement~
+        + viewCompletedReimbursements() Queue~Reimbursement~
+    }
+
+    class Treasurer {
+        + approveReimbursement(reimbursement : Reimbursement) void
+        + rejectReimbursement(reimbursement: Reimbursement, reason: String ) void
+        + viewAllReimbursements(project: Project) List~Reimbursement~
+        + generateBudgetReport(account: BudgetAccount) void
+    }
+
+    class SystemAdministrator {
+        + createUser(name: String, username: String, password: String, type: UserType) User
+        + deleteUser(user: User) void
+        + manageOrganizationDetails(organization: Organization) void
+    }
+
+    class Project {
+        - name : String
+        - description : String
+        - createdAt : DateTime
+        - fundingAccount : BudgetAccount
+        - pendingReimbursements : List~Reimbursement~
+        - completedReimbursements : Queue~Reimbursement~
+        + getBudget() BudgetAccount
+        + addReimbursement(reimbursement : Reimbursement) void
+        + getTotalExpenses() double
+    }
+
+    Project o-- Reimbursement
+
+    class Reimbursement {
+        - id : Integer
+        - description : String
+        - amount : Double
+        - requestor : Organizer
+        - approver : Treasurer
+        - project : Project
+        - status : ReimbursementStatus
+        - requestDate : DateTime
+        - approvalDate : DateTime
+    }
+
+    class ReimbursementStatus {
+        <<Enumeration>>
+        PENDING
+        APPROVED
+        REJECTED
+    }
+
+    ReimbursementStatus -- Reimbursement
+    Organizer *-- Reimbursement
+    Treasurer *-- Reimbursement
+
+    class Account {
+        <<Abstract>>
+        # name : String
+        # transactions : List~Transaction~
+        # balance : Double
+        + addTransaction(transaction : Transaction) void
+    }
+
+    class BudgetAccount {
+        - initialFund : Double
+    }
+
+    class PersonalAccount {
+
+    }
+
+    Organizer o-- PersonalAccount
+    Account <|-- PersonalAccount
+    Account <|-- BudgetAccount
+
+    class Transaction {
+        - id : Integer
+        - description : String
+        - amount : Double
+        - at : DateTime
+        - type : TransactionType
+    }
+
+    class TransactionType {
+        <<Enumeration>>
+        TRANSFER
+        REIMBURSEMENT
+        EXPENSE
+        DEPOSIT
+    }
+
+    TransactionType -- Transaction
+    Account *-- Transaction
+
+    class Savable~E~ {
+        <<Interface>>
+        + export() String
+        + import(string : String) E
+    }
+
+    Savable <|.. User
+    Savable <|.. Account
+    Savable <|.. Transaction
+    Savable <|.. Reimbursement
+    Savable <|.. Project
+    Savable <|.. Organization
