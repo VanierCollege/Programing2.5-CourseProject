@@ -1,0 +1,14 @@
+package ca.shahrestani.ali.edu.vanier.tool;
+
+/**
+ * Standardize method to allow class data loading (factory construction)
+ */
+public interface SavableFactory<T extends Savable> {
+    /**
+     * Method to construct a new instance of T based on a string input
+     *
+     * @param str the data string
+     * @return the newly constructed object of type T
+     */
+    T load(String str);
+}
