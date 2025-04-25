@@ -6,8 +6,7 @@ import java.util.Map;
 public final class DataManager {
     private static final Map<Class<? extends Savable>, SavableFactory<? extends Savable>> factories = new HashMap<>();
 
-    private DataManager() {
-    }
+    private DataManager() {}
 
     /**
      * Register a class to be loadable in the {@code DataManager}
