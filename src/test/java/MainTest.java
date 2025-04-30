@@ -14,7 +14,7 @@ import java.util.Map;
 public class MainTest {
 
     /**
-     * This method tests Main.registerBusinessFactories() and DataManager.registerFactory()
+     * Extra IO Test
      */
     @Test
     public void testRegisterBusinessFactories() {
