@@ -18,9 +18,4 @@ public class SystemAdministrator extends User<SystemAdministrator> {
             return null;
         }
     }
-
-    @Override
-    public UserFactory<SystemAdministrator> getFactory() {
-        return new SystemAdministratorFactory();
-    }
 }

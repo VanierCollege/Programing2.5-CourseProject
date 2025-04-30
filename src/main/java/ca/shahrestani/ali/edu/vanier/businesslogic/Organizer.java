@@ -15,9 +15,4 @@ public class Organizer extends User<Organizer> {
             return null;
         }
     }
-
-    @Override
-    public UserFactory<Organizer> getFactory() {
-        return null;
-    }
 }

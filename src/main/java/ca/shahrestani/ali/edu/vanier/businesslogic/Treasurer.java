@@ -15,9 +15,4 @@ public class Treasurer extends User<Treasurer> {
             return null;
         }
     }
-
-    @Override
-    public UserFactory<Treasurer> getFactory() {
-        return null;
-    }
 }

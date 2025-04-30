@@ -9,7 +9,4 @@ public abstract class User<S extends User<S>> implements Savable {
         @Override
         public abstract T load(String str);
     }
-
-    public abstract UserFactory<S> getFactory();
-
 }
