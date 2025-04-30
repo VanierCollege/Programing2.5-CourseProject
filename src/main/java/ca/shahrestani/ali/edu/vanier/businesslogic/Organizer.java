@@ -1,6 +1,15 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
-public class Organizer extends User<Organizer> {
+import java.time.ZonedDateTime;
+
+public class Organizer extends User {
+    public Organizer(String name) {
+        super(name, UserType.ORGANIZER);
+    }
+
+    public Organizer(String id, String name, UserType type, ZonedDateTime createdAt, ZonedDateTime lastSystemAccess) {
+        super(id, name, type, createdAt, lastSystemAccess);
+    }
 
     /* SAVABLE METHODS */
 
