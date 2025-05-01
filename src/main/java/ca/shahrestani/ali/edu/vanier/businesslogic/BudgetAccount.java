@@ -20,6 +20,8 @@ public class BudgetAccount extends Account {
         this.initialFund = Objects.requireNonNullElse(initialFund, 0.00);
     }
 
+    /* GETTERS & SETTERS */
+
     public Double getInitialFund() {
         return initialFund;
     }

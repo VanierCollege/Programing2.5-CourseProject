@@ -35,6 +35,8 @@ public abstract class Account implements Savable {
         transactionList.add(Objects.requireNonNull(transaction));
     }
 
+    /* GETTERS & SETTERS */
+
     public String getName() {
         return name;
     }
@@ -50,6 +52,8 @@ public abstract class Account implements Savable {
     public List<Transaction> getTransactionList() {
         return new ArrayList<>(transactionList);
     }
+
+    /* SAVABLE METHODS */
 
     public abstract static class AccountFactory<T extends Account> implements SavableFactory<T> {
         @Override

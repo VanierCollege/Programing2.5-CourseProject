@@ -26,6 +26,8 @@ public abstract class User implements Savable {
         this.lastSystemAccess = lastSystemAccess;
     }
 
+    /* GETTERS & SETTERS */
+
     public String getName() {
         return name;
     }
@@ -53,6 +55,8 @@ public abstract class User implements Savable {
     public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
+
+    /* SAVABLE METHODS */
 
     public abstract static class UserFactory<T extends User> implements SavableFactory<T> {
         @Override
