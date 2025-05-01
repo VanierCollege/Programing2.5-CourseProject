@@ -4,7 +4,7 @@ import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 
 import java.util.List;
 
-public class PersonalAccount extends Account<PersonalAccount> {
+public class PersonalAccount extends Account {
     public PersonalAccount(String name) {
         super(name);
     }

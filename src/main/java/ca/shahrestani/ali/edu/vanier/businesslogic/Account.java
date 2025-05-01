@@ -35,6 +35,18 @@ public abstract class Account implements Savable {
         transactionList.add(Objects.requireNonNull(transaction));
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
     public List<Transaction> getTransactionList() {
         return new ArrayList<>(transactionList);
     }

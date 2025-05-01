@@ -2,7 +2,7 @@ package ca.shahrestani.ali.edu.vanier.businesslogic;
 
 import java.time.ZonedDateTime;
 
-public class Treasurer extends User<Treasurer> {
+public class Treasurer extends User {
     public Treasurer(String name) {
         super(name, UserType.TREASURER);
     }

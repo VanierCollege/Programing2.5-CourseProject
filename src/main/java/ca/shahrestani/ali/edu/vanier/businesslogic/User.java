@@ -26,6 +26,34 @@ public abstract class User implements Savable {
         this.lastSystemAccess = lastSystemAccess;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ZonedDateTime getLastSystemAccess() {
+        return lastSystemAccess;
+    }
+
+    public void setLastSystemAccess(ZonedDateTime lastSystemAccess) {
+        this.lastSystemAccess = lastSystemAccess;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public abstract static class UserFactory<T extends User> implements SavableFactory<T> {
         @Override
         public abstract T load(String str);

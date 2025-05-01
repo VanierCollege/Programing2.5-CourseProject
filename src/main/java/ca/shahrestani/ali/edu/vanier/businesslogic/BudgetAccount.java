@@ -20,6 +20,10 @@ public class BudgetAccount extends Account {
         this.initialFund = Objects.requireNonNullElse(initialFund, 0.00);
     }
 
+    public Double getInitialFund() {
+        return initialFund;
+    }
+
     /* SAVABLE METHODS */
 
     @Override
