@@ -8,16 +8,29 @@ public class BudgetAccount extends Account {
     private final Double initialFund;
 
     public BudgetAccount(String name) {
-        this(name, new ArrayList<>(), 0.00, 0.00);
+        this(null, name, new ArrayList<>(), 0.00, 0.00);
     }
 
     public BudgetAccount(String name, Double initialFund) {
-        this(name, new ArrayList<>(), initialFund, initialFund);
+        this(null, name, new ArrayList<>(), initialFund, initialFund);
     }
 
-    public BudgetAccount(String name, List<Transaction> transactionList, Double balance, Double initialFund) {
-        super(name, transactionList, balance);
+    public BudgetAccount(String id, String name, List<Transaction> transactionList, Double balance, Double initialFund) {
+        super(id, name, transactionList, balance);
         this.initialFund = Objects.requireNonNullElse(initialFund, 0.00);
+    }
+
+    /* OVERRIDE METHODS */
+
+    @Override
+    public String toString() {
+        return "BudgetAccount{" +
+                "initialFund=" + initialFund +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", transactionList=" + transactionList +
+                ", balance=" + balance +
+                '}';
     }
 
     /* GETTERS & SETTERS */

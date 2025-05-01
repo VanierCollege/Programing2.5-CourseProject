@@ -14,7 +14,7 @@ public final class Util {
     private Util() {}
 
     /**
-     * Get an element from an array, negative indexes are allowed
+     * Get an element from an array, negative indexes are allowed.
      *
      * @param arr the array
      * @param idx the index
@@ -35,7 +35,7 @@ public final class Util {
     }
 
     /**
-     * Round a given number to a fixed amount of decimal places
+     * Round a given number to a fixed amount of decimal places.
      * <p>
      * <a href="https://stackoverflow.com/a/2808648/11242524">credit</a>
      *
@@ -55,7 +55,7 @@ public final class Util {
     }
 
     /**
-     * Generate a random string of characters
+     * Generate a random string of characters.
      *
      * @param count the number of characters to include (length)
      * @param lowerCase whether to include lower case letters or not
@@ -81,7 +81,7 @@ public final class Util {
     }
 
     /**
-     * Pad a string with zeros on the right to ensure a minimum length
+     * Pad a string with zeros on the right to ensure a minimum length.
      *
      * @param count the total length of the padded string
      * @param toPad the string to pad
@@ -92,7 +92,7 @@ public final class Util {
     }
 
     /**
-     * Pad a number with zeros on the right to ensure a minimum length
+     * Pad a number with zeros on the right to ensure a minimum length.
      *
      * @param count the total length of the padded string
      * @param toPadn the number to pad
@@ -104,7 +104,7 @@ public final class Util {
     }
 
     /**
-     * Pad a string with zeros on the left to ensure a minimum length
+     * Pad a string with zeros on the left to ensure a minimum length.
      *
      * @param count the total length of the padded string
      * @param toPad the string to pad
@@ -115,7 +115,7 @@ public final class Util {
     }
 
     /**
-     * Pad a number with zeros on the left to ensure a minimum length
+     * Pad a number with zeros on the left to ensure a minimum length.
      *
      * @param count the total length of the padded string
      * @param toPadn the number to pad
@@ -127,7 +127,7 @@ public final class Util {
     }
 
     /**
-     * Get the current time
+     * Get the current time.
      *
      * @return the current date-time
      */
@@ -136,7 +136,7 @@ public final class Util {
     }
 
     /**
-     * Get the numerical value of the current day of the month
+     * Get the numerical value of the current day of the month.
      *
      * @return the current day number
      */
@@ -145,7 +145,7 @@ public final class Util {
     }
 
     /**
-     * Convert a datetime object to a human-readable format
+     * Convert a datetime object to a human-readable format.
      *
      * @param zdt the time to parse
      * @return a string representation of the date time

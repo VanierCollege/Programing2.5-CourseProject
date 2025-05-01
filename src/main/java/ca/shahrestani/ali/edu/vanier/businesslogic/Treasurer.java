@@ -11,6 +11,19 @@ public class Treasurer extends User {
         super(id, name, type, createdAt, lastSystemAccess);
     }
 
+    /* OVERRIDE METHODS */
+
+    @Override
+    public String toString() {
+        return "Treasurer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                ", lastSystemAccess=" + lastSystemAccess +
+                '}';
+    }
+
     /* SAVABLE METHODS */
 
     @Override

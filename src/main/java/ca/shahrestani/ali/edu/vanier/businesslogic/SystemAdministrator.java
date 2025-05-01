@@ -13,6 +13,35 @@ public class SystemAdministrator extends User {
         super(id, name, type, createdAt, lastSystemAccess);
     }
 
+    /**
+     * Create a new (default) system administrator to be the first user in an organization
+     *
+     * @param orgName the organization's name
+     * @return the default system administrator
+     */
+    public static SystemAdministrator newDefaultSystemAdministrator(String orgName) {
+        return new SystemAdministrator(
+                null,
+                orgName + " System Administrator",
+                UserType.SYSTEM_ADMINISTRATOR,
+                null,
+                null
+        );
+    }
+
+    /* OVERRIDE METHODS */
+
+    @Override
+    public String toString() {
+        return "SystemAdministrator{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                ", lastSystemAccess=" + lastSystemAccess +
+                '}';
+    }
+
     /* SAVABLE METHODS */
 
     @Override

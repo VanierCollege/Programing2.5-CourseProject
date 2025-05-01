@@ -11,6 +11,19 @@ public class Organizer extends User {
         super(id, name, type, createdAt, lastSystemAccess);
     }
 
+    /* OVERRIDE METHODS */
+
+    @Override
+    public String toString() {
+        return "Organizer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                ", lastSystemAccess=" + lastSystemAccess +
+                '}';
+    }
+
     /* SAVABLE METHODS */
 
     @Override

@@ -13,8 +13,20 @@ public class PersonalAccount extends Account {
         super(name, balance);
     }
 
-    public PersonalAccount(String name, List<Transaction> transactionList, Double balance) {
-        super(name, transactionList, balance);
+    public PersonalAccount(String id, String name, List<Transaction> transactionList, Double balance) {
+        super(id, name, transactionList, balance);
+    }
+
+    /* OVERRIDE METHODS */
+
+    @Override
+    public String toString() {
+        return "PersonalAccount{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", transactionList=" + transactionList +
+                ", balance=" + balance +
+                '}';
     }
 
     /* SAVABLE METHODS */
