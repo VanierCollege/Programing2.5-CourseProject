@@ -8,10 +8,10 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public abstract class User implements Savable, Comparable<User> {
-    protected String id;
+    protected final String id;
     protected String name;
     protected UserType type;
-    protected ZonedDateTime createdAt;
+    protected final ZonedDateTime createdAt;
     protected ZonedDateTime lastSystemAccess;
 
     public User(String name, UserType type) {

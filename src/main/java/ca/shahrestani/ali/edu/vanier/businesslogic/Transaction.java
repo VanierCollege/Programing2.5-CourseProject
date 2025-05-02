@@ -5,6 +5,7 @@ import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Transaction implements Savable, Comparable<Transaction> {
@@ -18,13 +19,13 @@ public class Transaction implements Savable, Comparable<Transaction> {
         this(null, type, description, amount, null);
     }
 
-    public Transaction(String id, TransactionType type, String description, Double amount, ZonedDateTime transactedAt) {
+    public Transaction(String id, TransactionType type, String description, double amount, ZonedDateTime transactedAt) {
         this.id = Objects.requireNonNullElse(id,
                 Util.generateID(8, true, false, true)
         );
         this.type = Objects.requireNonNull(type);
         this.description = Objects.requireNonNull(description);
-        this.amount = Math.abs(Objects.requireNonNull(amount));
+        this.amount = Math.abs(amount);
         this.transactedAt = Objects.requireNonNullElse(transactedAt, Util.getNow());
     }
 
@@ -57,8 +58,6 @@ public class Transaction implements Savable, Comparable<Transaction> {
                 ", transactedAt=" + transactedAt +
                 '}';
     }
-
-
 
     /* GETTERS & SETTERS */
 
@@ -93,6 +92,27 @@ public class Transaction implements Savable, Comparable<Transaction> {
         @Override
         public Transaction load(String str) {
             return null;
+        }
+    }
+
+    /* INNER IMPLEMENTATIONS */
+
+    public static class TransactionComparator implements Comparator<Transaction> {
+        private final SortType sort;
+
+        public TransactionComparator(SortType sort) {
+            this.sort = Objects.requireNonNull(sort);
+        }
+
+        @Override
+        public int compare(Transaction o1, Transaction o2) {
+            int amount = Double.compare(o1.getAmount(), o2.getAmount());
+            int date = o1.getTransactedAt().toLocalDate().compareTo(o2.getTransactedAt().toLocalDate());
+            switch (sort) {
+                case AMOUNT -> amount *= 100;
+                case DATE -> date *= 100;
+            }
+            return amount + date;
         }
     }
 }

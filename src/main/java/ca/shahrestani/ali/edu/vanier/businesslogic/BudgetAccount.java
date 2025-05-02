@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class BudgetAccount extends Account {
-    private final Double initialFund;
+    private final double initialFund;
 
     public BudgetAccount(String name) {
-        this(null, name, new ArrayList<>(), 0.00, 0.00);
+        this(null, name, null, 0.00, 0.00);
     }
 
-    public BudgetAccount(String name, Double initialFund) {
-        this(null, name, new ArrayList<>(), initialFund, initialFund);
+    public BudgetAccount(String name, double initialFund) {
+        this(null, name, null, initialFund, initialFund);
     }
 
-    public BudgetAccount(String id, String name, List<Transaction> transactionList, Double balance, Double initialFund) {
+    public BudgetAccount(String id, String name, List<Transaction> transactionList, double balance, double initialFund) {
         super(id, name, transactionList, balance);
-        this.initialFund = Objects.requireNonNullElse(initialFund, 0.00);
+        this.initialFund = initialFund;
     }
 
     /* OVERRIDE METHODS */

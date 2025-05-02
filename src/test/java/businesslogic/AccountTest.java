@@ -121,4 +121,26 @@ public class AccountTest {
                 && result4.containsAll(Arrays.asList(t8)));
     }
 
+    @Test
+    public void testWillOverdraft_true() {
+        Account account1 = new PersonalAccount("Test1", 5.00);
+        boolean expected = true;
+        boolean result = account1.willOverdraft(7);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testWillOverdraft_false() {
+        Account account1 = new PersonalAccount("Test1", 5.00);
+        boolean expected = false;
+        boolean result = account1.willOverdraft(2);
+        Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    public void testWillOverdraft_negativeAmount() {
+        Account account1 = new PersonalAccount("Test1", 5.00);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> account1.willOverdraft(-5.00));
+    }
+
 }

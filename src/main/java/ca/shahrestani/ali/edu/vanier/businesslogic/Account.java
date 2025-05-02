@@ -7,26 +7,26 @@ import ca.shahrestani.ali.edu.vanier.tool.Util;
 import java.util.*;
 
 public abstract class Account implements Savable, Comparable<Account> {
-    protected String id;
+    protected final String id;
     protected String name;
     protected Collection<Transaction> transactionList;
     protected double balance;
 
     public Account(String name) {
-        this(null, name, null, null);
+        this(null, name, null, 0.00);
     }
 
     public Account(String name, Double balance) {
         this(null, name, null, balance);
     }
 
-    public Account(String id, String name, List<Transaction> transactionList, Double balance) {
+    public Account(String id, String name, List<Transaction> transactionList, double balance) {
         this.id = Objects.requireNonNullElse(id,
                 Util.generateID(6, false, false, true)
         );
         this.name = Objects.requireNonNull(name);
         this.transactionList = Objects.requireNonNullElse(transactionList, new LinkedHashSet<>());
-        this.balance = Objects.requireNonNullElse(balance, 0.00);
+        this.balance = balance;
     }
 
     /**
@@ -100,6 +100,21 @@ public abstract class Account implements Savable, Comparable<Account> {
         return transactionList.stream()
                 .filter(transaction -> transaction.getType().equals(type))
                 .toList();
+    }
+
+    /**
+     * Check if a (deduction) amount will result in a negative account balance.
+     * <p></p>
+     * Note that this method does not transfer any funds itself.
+     *
+     * @param amount the amount to potentially deduct
+     * @return whether the account will  overdraft or not
+     */
+    public boolean willOverdraft(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Overdraft test amount cannot be negative");
+        }
+        return balance - amount < 0;
     }
 
     /* OVERRIDE METHODS */
