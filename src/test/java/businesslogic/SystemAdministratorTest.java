@@ -14,7 +14,6 @@ public class SystemAdministratorTest {
     public void testNewDefaultSystemAdministrator_example() {
         String input = "ABC Corp.";
         SystemAdministrator result = SystemAdministrator.newDefaultSystemAdministrator(input);
-
         Duration tolerance = Duration.ofSeconds(5);
         Assertions.assertTrue(result != null
                 && result.getType().equals(UserType.SYSTEM_ADMINISTRATOR)
