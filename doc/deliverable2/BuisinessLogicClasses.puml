@@ -1,0 +1,23 @@
+@startuml
+abstract class ca.shahrestani.ali.edu.vanier.businesslogic.Account
+abstract class ca.shahrestani.ali.edu.vanier.businesslogic.User
+class ca.shahrestani.ali.edu.vanier.businesslogic.BudgetAccount
+class ca.shahrestani.ali.edu.vanier.businesslogic.LogicallyInvalidActionException
+class ca.shahrestani.ali.edu.vanier.businesslogic.Organization
+class ca.shahrestani.ali.edu.vanier.businesslogic.Organizer
+class ca.shahrestani.ali.edu.vanier.businesslogic.PersonalAccount
+class ca.shahrestani.ali.edu.vanier.businesslogic.Project
+class ca.shahrestani.ali.edu.vanier.businesslogic.Reimbursement
+class ca.shahrestani.ali.edu.vanier.businesslogic.SystemAdministrator
+class ca.shahrestani.ali.edu.vanier.businesslogic.Transaction
+class ca.shahrestani.ali.edu.vanier.businesslogic.Treasurer
+enum ca.shahrestani.ali.edu.vanier.businesslogic.ReimbursementStatus
+enum ca.shahrestani.ali.edu.vanier.businesslogic.SortType
+enum ca.shahrestani.ali.edu.vanier.businesslogic.TransactionType
+enum ca.shahrestani.ali.edu.vanier.businesslogic.UserType
+ca.shahrestani.ali.edu.vanier.businesslogic.BudgetAccount --|> ca.shahrestani.ali.edu.vanier.businesslogic.Account
+ca.shahrestani.ali.edu.vanier.businesslogic.Organizer --|> ca.shahrestani.ali.edu.vanier.businesslogic.User
+ca.shahrestani.ali.edu.vanier.businesslogic.PersonalAccount --|> ca.shahrestani.ali.edu.vanier.businesslogic.Account
+ca.shahrestani.ali.edu.vanier.businesslogic.SystemAdministrator --|> ca.shahrestani.ali.edu.vanier.businesslogic.User
+ca.shahrestani.ali.edu.vanier.businesslogic.Treasurer --|> ca.shahrestani.ali.edu.vanier.businesslogic.User
+@enduml
