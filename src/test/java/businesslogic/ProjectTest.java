@@ -25,4 +25,31 @@ public class ProjectTest {
         Reimbursement reimbursement = new Reimbursement("Test", 5.00, organizer, project);
         Assertions.assertThrows(LogicallyInvalidActionException.class, () -> project.recordCompletedReimbursement(reimbursement));
     }
+
+    @Test
+    public void testAddExpense_example() {
+        double balance = 3.00;
+        double input = 1.00;
+        BudgetAccount account = new BudgetAccount("Test", balance);
+        Project project = new Project("Test", "Testing Project", account);
+        project.addExpense(input);
+        Transaction transaction = account.getTransactionList().getFirst();
+        Assertions.assertTrue(account.getBalance() == balance - input
+                && transaction.getType().equals(TransactionType.EXPENSE)
+                && transaction.getAmount() == input
+                && transaction.getDescription().contains(project.getName()));
+    }
+
+    @Test
+    public void testAddExpense_negative() {
+        double input = 1.00;
+        Project project = new Project("Test", "Testing Project", null);
+        BudgetAccount account = project.getFundingAccount();
+        project.addExpense(input);
+        Transaction transaction = account.getTransactionList().getFirst();
+        Assertions.assertTrue(account.getBalance() == -input
+                && transaction.getType().equals(TransactionType.EXPENSE)
+                && transaction.getAmount() == input
+                && transaction.getDescription().contains(project.getName()));
+    }
 }
