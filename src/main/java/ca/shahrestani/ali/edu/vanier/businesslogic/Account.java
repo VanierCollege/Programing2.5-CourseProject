@@ -103,7 +103,7 @@ public abstract class Account implements Savable, Comparable<Account> {
     }
 
     /**
-     * Check if a (deduction) amount will result in a negative account balance.
+     * Check if a (deduction) amount will result in a negative account balance. {@code balance - amount < 0}
      * <p></p>
      * Note that this method does not transfer any funds itself.
      *
@@ -111,9 +111,6 @@ public abstract class Account implements Savable, Comparable<Account> {
      * @return whether the account will  overdraft or not
      */
     public boolean willOverdraft(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Overdraft test amount cannot be negative");
-        }
         return balance - amount < 0;
     }
 

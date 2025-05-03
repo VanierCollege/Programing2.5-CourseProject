@@ -1,8 +1,7 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
-import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
-
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 public class SystemAdministrator extends User {
     public SystemAdministrator(String name) {
@@ -17,9 +16,11 @@ public class SystemAdministrator extends User {
      * Create a new (default) system administrator to be the first user in an organization
      *
      * @param orgName the organization's name
-     * @return the default system administrator
+     * @return a new system administrator
      */
     public static SystemAdministrator newDefaultSystemAdministrator(String orgName) {
+        Objects.requireNonNull(orgName);
+
         return new SystemAdministrator(
                 null,
                 orgName + " System Administrator",

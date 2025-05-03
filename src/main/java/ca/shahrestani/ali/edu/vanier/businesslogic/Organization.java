@@ -3,6 +3,7 @@ package ca.shahrestani.ali.edu.vanier.businesslogic;
 import ca.shahrestani.ali.edu.vanier.tool.Savable;
 import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 
+// TODO
 public class Organization implements Savable {
 
     /* SAVABLE METHODS */

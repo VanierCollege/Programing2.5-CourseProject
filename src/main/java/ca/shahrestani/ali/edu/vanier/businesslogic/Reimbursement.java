@@ -5,7 +5,6 @@ import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class Reimbursement implements Savable, Comparable<Reimbursement> {
@@ -46,7 +45,7 @@ public class Reimbursement implements Savable, Comparable<Reimbursement> {
      */
     public void approve(Treasurer treasurer) {
         if (!status.equals(ReimbursementStatus.PENDING)) {
-            throw new IllegalStateException("Reimbursement already approved/rejected");
+            throw new LogicallyInvalidActionException("Reimbursement already approved/rejected");
         }
         Objects.requireNonNull(treasurer);
 
@@ -62,7 +61,7 @@ public class Reimbursement implements Savable, Comparable<Reimbursement> {
      */
     public void reject(Treasurer treasurer) {
         if (!status.equals(ReimbursementStatus.PENDING)) {
-            throw new IllegalStateException("Reimbursement already approved/rejected");
+            throw new LogicallyInvalidActionException("Reimbursement already approved/rejected");
         }
         Objects.requireNonNull(treasurer);
 

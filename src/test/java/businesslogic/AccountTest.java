@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class AccountTest {
 
     @Test
@@ -136,11 +135,4 @@ public class AccountTest {
         boolean result = account1.willOverdraft(2);
         Assertions.assertEquals(expected, result);
     }
-
-    @Test
-    public void testWillOverdraft_negativeAmount() {
-        Account account1 = new PersonalAccount("Test1", 5.00);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> account1.willOverdraft(-5.00));
-    }
-
 }

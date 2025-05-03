@@ -10,7 +10,7 @@ public class ReimbursementTest {
     public void testApprove_example() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         Assertions.assertEquals(ReimbursementStatus.PENDING, reimbursement.getStatus());
         reimbursement.approve(treasurer);
@@ -21,7 +21,7 @@ public class ReimbursementTest {
     public void testApprove_null() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         Assertions.assertThrows(NullPointerException.class, () -> reimbursement.approve(null));
     }
@@ -30,7 +30,7 @@ public class ReimbursementTest {
     public void testApprove_alreadyApproved() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         reimbursement.approve(treasurer);
         Assertions.assertEquals(ReimbursementStatus.APPROVED, reimbursement.getStatus());
@@ -41,7 +41,7 @@ public class ReimbursementTest {
     public void testReject_example() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         Assertions.assertEquals(ReimbursementStatus.PENDING, reimbursement.getStatus());
         reimbursement.reject(treasurer);
@@ -52,7 +52,7 @@ public class ReimbursementTest {
     public void testReject_null() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         Assertions.assertThrows(NullPointerException.class, () -> reimbursement.reject(null));
     }
@@ -61,11 +61,10 @@ public class ReimbursementTest {
     public void testReject_alreadyRejected() {
         Organizer requester = new Organizer("Test");
         Treasurer treasurer = new Treasurer("Test");
-        Project project = new Project();
+        Project project = new Project("Test", "Testing Project", null);
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         reimbursement.reject(treasurer);
         Assertions.assertEquals(ReimbursementStatus.REJECTED, reimbursement.getStatus());
         Assertions.assertThrows(IllegalStateException.class, () -> reimbursement.reject(treasurer));
     }
-
 }

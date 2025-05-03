@@ -1,7 +1,5 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
-import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
-
 import java.util.List;
 
 public class PersonalAccount extends Account {

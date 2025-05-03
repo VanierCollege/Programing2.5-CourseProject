@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class DataManager {
+    private static final String homeDir = System.getProperty("user.home");
+
     private static final Map<String, SavableFactory<? extends Savable>> factories = new HashMap<>();
 
     private DataManager() {}
