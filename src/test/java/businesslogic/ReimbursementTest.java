@@ -34,7 +34,7 @@ public class ReimbursementTest {
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         reimbursement.approve(treasurer);
         Assertions.assertEquals(ReimbursementStatus.APPROVED, reimbursement.getStatus());
-        Assertions.assertThrows(IllegalStateException.class, () -> reimbursement.approve(treasurer));
+        Assertions.assertThrows(LogicallyInvalidActionException.class, () -> reimbursement.approve(treasurer));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class ReimbursementTest {
         Reimbursement reimbursement = new Reimbursement("TEST", 5, requester, project);
         reimbursement.reject(treasurer);
         Assertions.assertEquals(ReimbursementStatus.REJECTED, reimbursement.getStatus());
-        Assertions.assertThrows(IllegalStateException.class, () -> reimbursement.reject(treasurer));
+        Assertions.assertThrows(LogicallyInvalidActionException.class, () -> reimbursement.reject(treasurer));
     }
 }

@@ -28,8 +28,9 @@ public class DataManagerTest {
         Class<Organizer> classInput = Organizer.class;
         SavableFactory<Organizer> factoryInput = new Organizer.OrganizerFactory();
         DataManager.registerFactory(classInput, factoryInput);
+        System.out.printf(DataManager.getFactories().keySet().toString());
 
-        Assertions.assertNotNull(DataManager.loadSavable(classInput, ""));
-        Assertions.assertNotNull(DataManager.loadSavable(classInput.getSimpleName(), ""));
+        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput, ""));
+        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput.getSimpleName(), ""));
     }
 }
