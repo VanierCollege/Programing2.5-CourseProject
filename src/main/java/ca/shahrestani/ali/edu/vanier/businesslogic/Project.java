@@ -12,19 +12,19 @@ public class Project implements Savable {
     private String description;
     private BudgetAccount fundingAccount;
     private Set<Reimbursement> completedReimbursements;
-    private List<Reimbursement> pendingReimbursements;
+    private Set<Reimbursement> pendingReimbursements;
     private final ZonedDateTime createdAt;
 
     public Project(String name, String description, BudgetAccount fundingAccount) {
         this(name, description, fundingAccount, null, null, null);
     }
 
-    public Project(String name, String description, BudgetAccount fundingAccount, Set<Reimbursement> completedReimbursements, List<Reimbursement> pendingReimbursements, ZonedDateTime createdAt) {
+    public Project(String name, String description, BudgetAccount fundingAccount, Set<Reimbursement> completedReimbursements, Set<Reimbursement> pendingReimbursements, ZonedDateTime createdAt) {
         this.name = Objects.requireNonNull(name);
         this.description = Objects.requireNonNull(description);
         this.fundingAccount = Objects.requireNonNullElse(fundingAccount, new BudgetAccount("Budget Account for " + name + " Project"));
         this.completedReimbursements = Objects.requireNonNullElse(completedReimbursements, new LinkedHashSet<>());
-        this.pendingReimbursements = Objects.requireNonNullElse(pendingReimbursements, new ArrayList<>());;
+        this.pendingReimbursements = Objects.requireNonNullElse(pendingReimbursements, new HashSet<>());;
         this.createdAt = Objects.requireNonNullElse(createdAt, Util.getNow());
     }
 
@@ -43,6 +43,20 @@ public class Project implements Savable {
 
         pendingReimbursements.remove(reimbursement);
         completedReimbursements.add(reimbursement);
+    }
+
+    /**
+     * Add a pending reimbursement to the pending list.
+     *
+     * @param reimbursement the reimbursement to record
+     */
+    public void recordPendingReimbursement(Reimbursement reimbursement) {
+        Objects.requireNonNull(reimbursement);
+        if (!reimbursement.getStatus().equals(ReimbursementStatus.PENDING)) {
+            throw new LogicallyInvalidActionException("Cannot record a completed reimbursement as pending");
+        }
+
+        pendingReimbursements.add(reimbursement);
     }
 
     /**

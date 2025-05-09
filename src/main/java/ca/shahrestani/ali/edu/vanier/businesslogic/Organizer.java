@@ -36,6 +36,20 @@ public class Organizer extends User {
         completedReimbursements.add(reimbursement);
     }
 
+    /**
+     * Add a pending reimbursement to the pending list.
+     *
+     * @param reimbursement the reimbursement to record
+     */
+    public void recordPendingReimbursement(Reimbursement reimbursement) {
+        Objects.requireNonNull(reimbursement);
+        if (!reimbursement.getStatus().equals(ReimbursementStatus.PENDING)) {
+            throw new LogicallyInvalidActionException("Cannot record a completed reimbursement as pending");
+        }
+
+        pendingReimbursements.add(reimbursement);
+    }
+
     /* OVERRIDE METHODS */
 
     @Override

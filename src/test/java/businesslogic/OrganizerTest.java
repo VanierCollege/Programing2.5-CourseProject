@@ -26,4 +26,24 @@ public class OrganizerTest {
         Reimbursement reimbursement = new Reimbursement("Test", 5.00, organizer, project);
         Assertions.assertThrows(LogicallyInvalidActionException.class, () -> organizer.recordCompletedReimbursement(reimbursement));
     }
+
+    @Test
+    public void testRecordPendingReimbursement_example() {
+        Organizer organizer = new Organizer("TEST");
+        Project project = new Project("Test", "Testing Project", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 5.00, organizer, project);
+        organizer.recordPendingReimbursement(reimbursement);
+        Assertions.assertTrue(organizer.getCompletedReimbursements().isEmpty()
+                && organizer.getPendingReimbursements().size() == 1
+                && organizer.getPendingReimbursements().contains(reimbursement));
+    }
+
+    @Test
+    public void testRecordCPendingReimbursement_complete() {
+        Organizer organizer = new Organizer("TEST");
+        Project project = new Project("Test", "Testing Project", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 5.00, organizer, project);
+        reimbursement.approve(new Treasurer("Test"));
+        Assertions.assertThrows(LogicallyInvalidActionException.class, () -> organizer.recordPendingReimbursement(reimbursement));
+    }
 }

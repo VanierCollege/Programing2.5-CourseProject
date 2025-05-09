@@ -122,8 +122,9 @@ public class Organization implements Savable {
         return "Organization{" +
                 "name='" + name + '\'' +
                 ", users=" + users +
-                ", projects=" + projects +
                 ", accounts=" + accounts +
+                ", projects=" + projects +
+                ", reimbursements=" + reimbursements +
                 '}';
     }
 

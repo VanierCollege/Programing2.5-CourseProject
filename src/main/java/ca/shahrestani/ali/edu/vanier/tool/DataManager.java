@@ -130,7 +130,7 @@ public final class DataManager {
 
     /* BUSINESS HANDLERS */
 
-    public static final class OrganizationData {
+    public static final class OrganizationData {        // TODO: Make this an inner class in Organization
         // Global centralized data store to avoid object duplication
         public Map<String, User> userMap = new HashMap<>();
         public List<Project> projectList = new ArrayList<>();
@@ -183,6 +183,7 @@ public final class DataManager {
             reimbursementMap = loadReimbursements(reimbursementsFile);
 
             // 5. Inject Reimbursement to Organizer and Project
+
 
             return new Organization(
                     orgName,
@@ -301,6 +302,27 @@ public final class DataManager {
             }
 
             return reimbursements;
+        }
+
+        /**
+         * Inject reimbursements into corresponding lists in Organizer and Project objects
+         */
+        private void injectReimbursements() {
+            for (Reimbursement reimbursement : reimbursementMap.values()) {
+                boolean completed = !reimbursement.getStatus().equals(ReimbursementStatus.PENDING);
+
+                Organizer organizer = reimbursement.getRequester();
+                Project project = reimbursement.getProject();
+
+                if (completed) {
+                    organizer.recordCompletedReimbursement(reimbursement);
+                    project.recordCompletedReimbursement(reimbursement);
+                } else {
+                    organizer.recordPendingReimbursement(reimbursement);
+                    project.recordPendingReimbursement(reimbursement);
+                }
+            }
+
         }
     }
 }
