@@ -1,5 +1,8 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
+import ca.shahrestani.ali.edu.vanier.tool.Util;
+
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -9,11 +12,11 @@ public class Organizer extends User {
     private Set<Reimbursement> pendingReimbursements;
 
     public Organizer(String name) {
-        this(null, name, UserType.ORGANIZER, null, null, null, null, null);
+        this(null, name, null, null, null, null, null);
     }
 
-    public Organizer(String id, String name, UserType type, ZonedDateTime createdAt, ZonedDateTime lastSystemAccess, PersonalAccount account, Set<Reimbursement> completedReimbursements, Set<Reimbursement> pendingReimbursements) {
-        super(id, name, type, createdAt, lastSystemAccess);
+    public Organizer(String id, String name, ZonedDateTime createdAt, ZonedDateTime lastSystemAccess, PersonalAccount account, Set<Reimbursement> completedReimbursements, Set<Reimbursement> pendingReimbursements) {
+        super(id, name,  UserType.ORGANIZER, createdAt, lastSystemAccess);
         this.account = Objects.requireNonNullElse(account, new PersonalAccount(name + "'s Personal Account"));
         this.completedReimbursements = Objects.requireNonNullElse(completedReimbursements, new LinkedHashSet<>());
         this.pendingReimbursements = Objects.requireNonNullElse(pendingReimbursements, new HashSet<>());
@@ -87,7 +90,32 @@ public class Organizer extends User {
     public static class OrganizerFactory extends UserFactory<Organizer> {
         @Override
         public Organizer load(String str, Map<String, Object> dependencies) {
-            return null;
+            // type, id, name, createdAt, lastSystemAccess, personalAccount
+
+            List<String> userData = BracketAwareSplitter.splitIgnoringBrackets(str);
+
+            String id = Util.requireStringNotEmpty(userData.get(1));
+            String name = Util.requireStringNotEmpty(userData.get(2));
+            ZonedDateTime createdAt = ZonedDateTime.parse(userData.get(3));
+            ZonedDateTime lastSystemAccess = ZonedDateTime.parse(userData.get(4));  // TODO: Handle null
+            String personalAccountReference = userData.get(5);
+
+            Account account = ((Map<String, Account>) dependencies.get("GLOBAL_ACCOUNTS")).getOrDefault(personalAccountReference, null);
+            if (!(account instanceof PersonalAccount)) {
+                throw new IllegalArgumentException(
+                        String.format("Organizer (uID:%s) references an invalid account (aID:%s)", id, personalAccountReference)
+                );
+            }
+
+            return new Organizer(
+                    id,
+                    name,
+                    createdAt,
+                    lastSystemAccess,
+                    (PersonalAccount) account,
+                    null,
+                    null
+            );
         }
     }
 }

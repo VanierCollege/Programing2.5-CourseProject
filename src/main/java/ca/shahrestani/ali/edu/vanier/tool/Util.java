@@ -8,6 +8,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class is a core component of the system and thus trusted to operate correctly.
+ * <p>
+ * Any issues found are considered critical system-level bugs.
+ */
 public final class Util {
     public static final String TIME_ZONE = "America/Montreal";
 
@@ -156,5 +161,12 @@ public final class Util {
         }
 
         return DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm a").format(zdt);
+    }
+
+    public static String requireStringNotEmpty(String string) {
+        if (string == null || string.isEmpty()) {
+            throw new IllegalArgumentException("String cannot be empty");
+        }
+        return string;
     }
 }

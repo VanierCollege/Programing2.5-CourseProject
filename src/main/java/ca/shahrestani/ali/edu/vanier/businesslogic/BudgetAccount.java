@@ -1,7 +1,12 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
+import ca.shahrestani.ali.edu.vanier.tool.Util;
+import jdk.jfr.TransitionTo;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BudgetAccount extends Account {
     private final double initialFund;
@@ -14,7 +19,7 @@ public class BudgetAccount extends Account {
         this(null, name, null, initialFund, initialFund);
     }
 
-    public BudgetAccount(String id, String name, List<Transaction> transactionList, double balance, double initialFund) {
+    public BudgetAccount(String id, String name, Set<Transaction> transactionList, double balance, double initialFund) {
         super(id, name, transactionList, balance);
         this.initialFund = initialFund;
     }
@@ -47,8 +52,26 @@ public class BudgetAccount extends Account {
 
     public static class BudgetAccountFactory extends Account.AccountFactory<BudgetAccount> {
         @Override
-        public BudgetAccount load(String string, Map<String, Object> dependencies) {
-            return null;
+        public BudgetAccount load(String str, Map<String, Object> dependencies) {
+            // type, id, name, balance, initialBalance \n
+            // ... transaction \n transaction ...
+
+            String[] lines = str.split("\n");
+            List<String> accountData = BracketAwareSplitter.splitIgnoringBrackets(lines[0]);
+
+            String id = Util.requireStringNotEmpty(accountData.get(1));
+            String name = Util.requireStringNotEmpty(accountData.get(2));
+            double balance = Double.parseDouble(accountData.get(3));
+            double initialBalance = Double.parseDouble(accountData.get(4));
+            Set<Transaction> transactions = loadTransactions(lines);
+
+            return new BudgetAccount(
+                    id,
+                    name,
+                    transactions,
+                    balance,
+                    initialBalance
+            );
         }
     }
 }

@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class Account implements Savable, Comparable<Account> {
     protected final String id;
     protected String name;
-    protected Collection<Transaction> transactionList;
+    protected Set<Transaction> transactionList;
     protected double balance;
 
     public Account(String name) {
@@ -21,7 +21,7 @@ public abstract class Account implements Savable, Comparable<Account> {
         this(null, name, null, balance);
     }
 
-    public Account(String id, String name, List<Transaction> transactionList, double balance) {
+    public Account(String id, String name, Set<Transaction> transactionList, double balance) {
         this.id = Objects.requireNonNullElse(id,
                 Util.generateID(6, false, false, true)
         );
@@ -177,6 +177,24 @@ public abstract class Account implements Savable, Comparable<Account> {
             } else {
                 throw new DataManager.SwitchFactorySignalException(type);
             }
+        }
+
+        /**
+         * Handles the loading of an account's transaction by being the bridge between Account and Transaction factories.
+         * The first line is ignored (assumed to be account header data).
+         *
+         * @param lines the account's data
+         * @return a set of transactions
+         */
+        public Set<Transaction> loadTransactions(String[] lines) {
+            Set<Transaction> transactions  = new LinkedHashSet<>();
+            for (int i = 1; i < lines.length; i++) {
+                Transaction transaction = DataManager.loadSavable(Transaction.class, lines[i], null);
+                if (transaction != null) {
+                    transactions.add(transaction);
+                }
+            }
+            return transactions;
         }
     }
 }

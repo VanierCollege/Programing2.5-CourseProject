@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 /**
- * Example tests, DataManager is not meant for unit testings
+ * Example tests, DataManager is not meant for unit testings.
+ * DataManager and its IO handlers are part of the business-independent program components and thus ar themselves trusted (offensive programming)
  */
 public class DataManagerTest {
 

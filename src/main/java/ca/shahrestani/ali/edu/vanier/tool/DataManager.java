@@ -8,10 +8,16 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.DateTimeException;
 import java.util.*;
 
+/**
+ * This class is a core component of the system and thus trusted to operate correctly.
+ * <p>
+ * Any issues found are considered critical system-level bugs.
+ */
 public final class DataManager {
-    private static final String homeDir = System.getProperty("user.home");
+    public static final String homeDir = System.getProperty("user.home");
 
     private static final Map<String, SavableFactory<? extends Savable>> factories = new HashMap<>();
 
@@ -39,7 +45,7 @@ public final class DataManager {
                 }
             }
         } else {
-            throw new FileNotFoundException(dir.toString() + " directory not found or is not a directory");
+            throw new FileNotFoundException(dir + " directory not found or is not a directory");
         }
 
         return fileContents;
@@ -58,7 +64,7 @@ public final class DataManager {
         if (Files.exists(file) && Files.isRegularFile(file)) {
             contents = Files.readAllLines(file);
         } else {
-            throw new FileNotFoundException(file.toString() + " file is not found is not a file");
+            throw new FileNotFoundException(file + " file is not found is not a file");
         }
 
         return contents;
@@ -105,7 +111,13 @@ public final class DataManager {
         if (factory == null) {
             throw new UnsupportedOperationException("No loading factory registered for type: " + type);
         }
-        return factory.load(data, dependencies);
+        try {
+            return factory.load(data, dependencies);
+        } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException | DateTimeException e) {
+            // Example warning
+            System.err.printf("Failed to load data of type %s: %s...%n", type, data.substring(0, Math.min(data.length(), 7)));
+            return null;
+        }
     }
 
     public static class SwitchFactorySignalException extends RuntimeException {
@@ -131,9 +143,9 @@ public final class DataManager {
     /* BUSINESS HANDLERS */
 
     public static final class OrganizationData {        // TODO: Make this an inner class in Organization
-        // Global centralized data store to avoid object duplication
+        // Global centralized data store to avoid object duplication during load
         public Map<String, User> userMap = new HashMap<>();
-        public List<Project> projectList = new ArrayList<>();
+        public Map<String, Project> projectMap = new HashMap<>();
         public Map<String, Account> accountMap = new HashMap<>();
         public Map<String, Reimbursement> reimbursementMap = new HashMap<>();
 
@@ -167,17 +179,21 @@ public final class DataManager {
             }
 
             /* NOTES
-            File names, although corresponding to the object's IDs, are not used
+            - File names, although corresponding to the object's IDs, are not used.
+
+            - The following methods should be called in order. The loading sequence itself will not fail
+            if they are not, but objects with dependencies will fail to be initialized at the last step
+             (load factory). This will lead to missing data.
              */
 
             // 1. Load accounts first, needed for User and Project
             accountMap = loadAccounts(accountsDir);
 
-            // 2. Load users second, needed for Reimbursement
+            // 2. Load users, needed for Reimbursement
             userMap = loadUsers(usersDir);
 
             // 3. Load Project, needed for Reimbursement
-            projectList = loadProjects(projectsFile);
+            projectMap = loadProjects(projectsFile);
 
             // 4. Load Reimbursement
             reimbursementMap = loadReimbursements(reimbursementsFile);
@@ -189,7 +205,7 @@ public final class DataManager {
             return new Organization(
                     orgName,
                     new HashSet<>(userMap.values()),
-                    new HashSet<>(projectList),
+                    new HashSet<>(projectMap.values()),
                     new HashSet<>(accountMap.values()),
                     new HashSet<>(reimbursementMap.values())
             );
@@ -210,6 +226,10 @@ public final class DataManager {
 
             Map<String, String> rawData = readAllFilesInDirectory(accountsDir, "obt.txt");
             for (String rawAccount : rawData.values()) {
+                if (rawAccount.isEmpty()) {
+                    continue;
+                }
+
                 Account account;
                 try {
                     account = loadSavable(Account.class, rawAccount, null);
@@ -243,6 +263,10 @@ public final class DataManager {
 
             Map<String, String> rawData = readAllFilesInDirectory(usersDir, "obt.txt");
             for (String rawUser : rawData.values()) {
+                if (rawUser.isEmpty()) {
+                    continue;
+                }
+
                 User user;
                 try {
                     user = loadSavable(User.class, rawUser, null);
@@ -258,18 +282,32 @@ public final class DataManager {
             return users;
         }
 
-        private List<Project> loadProjects(Path projectsFile) throws IOException {
-            List<Project> projects = new ArrayList<>();
+        /**
+         * Load all projects from the 'projects' file.
+         * Each line in the file is expected to be a single project's data.
+         * Note that this method expects to be called during a proper loading sequence.
+         * Note that this method does not perform any IO validity checks.
+         *
+         * @param projectsFile the path to the projects file
+         * @return a map of ProjectName to Project object
+         * @throws IOException any IO exception
+         */
+        private Map<String, Project> loadProjects(Path projectsFile) throws IOException {
+            Map<String, Project> projects = new HashMap<>();
 
             Map<String, Object> projectFactoryDependencies = new HashMap<>();
             projectFactoryDependencies.put("GLOBAL_ACCOUNTS", accountMap);
 
             List<String> rawData = readAllLinesInFile(projectsFile);
             for (String rawProject : rawData) {
+                if (rawProject.isEmpty()) {
+                    continue;
+                }
+
                 Project project = loadSavable(Project.class, rawProject, projectFactoryDependencies);
 
                 if (project != null) {
-                    projects.add(project);
+                    projects.put(project.getName(), project);
                 }
             }
 
@@ -290,11 +328,15 @@ public final class DataManager {
             Map<String, Reimbursement> reimbursements = new HashMap<>();
 
             Map<String, Object> reimbursementFactoryDependencies = new HashMap<>();
-            reimbursementFactoryDependencies.put("GLOBAL_ACCOUNTS", accountMap);
-            reimbursementFactoryDependencies.put("GLOBAL_PROJECTS", projectList);
+            reimbursementFactoryDependencies.put("GLOBAL_USERS", userMap);
+            reimbursementFactoryDependencies.put("GLOBAL_PROJECTS", projectMap);
 
             List<String> rawData = readAllLinesInFile(reimbursementsFile);
             for (String rawReimbursement : rawData) {
+                if (rawReimbursement.isEmpty()) {
+                    continue;
+                }
+
                 Reimbursement reimbursement = loadSavable(Reimbursement.class, rawReimbursement, reimbursementFactoryDependencies);
 
                 if (reimbursement != null) {

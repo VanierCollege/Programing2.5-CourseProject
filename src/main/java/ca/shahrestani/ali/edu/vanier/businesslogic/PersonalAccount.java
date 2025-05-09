@@ -1,18 +1,22 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
+import ca.shahrestani.ali.edu.vanier.tool.Util;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PersonalAccount extends Account {
     public PersonalAccount(String name) {
         super(name);
     }
 
-    public PersonalAccount(String name, Double balance) {
+    public PersonalAccount(String name, double balance) {
         super(name, balance);
     }
 
-    public PersonalAccount(String id, String name, List<Transaction> transactionList, Double balance) {
+    public PersonalAccount(String id, String name, Set<Transaction> transactionList, double balance) {
         super(id, name, transactionList, balance);
     }
 
@@ -38,7 +42,23 @@ public class PersonalAccount extends Account {
     public static class PersonAccountFactory extends Account.AccountFactory<PersonalAccount> {
         @Override
         public PersonalAccount load(String str, Map<String, Object> dependencies) {
-            return null;
+            // type, id, name, balance \n
+            // ... transaction \n transaction ...
+
+            String[] lines = str.split("\n");
+            List<String> accountData = BracketAwareSplitter.splitIgnoringBrackets(lines[0]);
+
+            String id = Util.requireStringNotEmpty(accountData.get(1));
+            String name = Util.requireStringNotEmpty(accountData.get(2));
+            double balance = Double.parseDouble(accountData.get(3));
+            Set<Transaction> transactions = loadTransactions(lines);
+
+            return new PersonalAccount(
+                    id,
+                    name,
+                    transactions,
+                    balance
+            );
         }
     }
 }

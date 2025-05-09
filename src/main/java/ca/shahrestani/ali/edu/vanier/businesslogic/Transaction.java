@@ -1,11 +1,13 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
 import ca.shahrestani.ali.edu.vanier.tool.Savable;
 import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -92,7 +94,23 @@ public class Transaction implements Savable, Comparable<Transaction> {
     public static class TransactionFactory implements SavableFactory<Transaction> {
         @Override
         public Transaction load(String str, Map<String, Object> dependencies) {
-            return null;
+            // id, type, description, amount, transactedAt
+
+            List<String> transactionData = BracketAwareSplitter.splitIgnoringBrackets(str);
+
+            String id = Util.requireStringNotEmpty(transactionData.get(0));
+            TransactionType type = TransactionType.valueOf(transactionData.get(1));
+            String description = transactionData.get(2);
+            double amount = Double.parseDouble(transactionData.get(3));
+            ZonedDateTime transactedAt = ZonedDateTime.parse(transactionData.get(4));
+
+            return new Transaction(
+                    id,
+                    type,
+                    description,
+                    amount,
+                    transactedAt
+            );
         }
     }
 

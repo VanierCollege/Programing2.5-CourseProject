@@ -1,6 +1,10 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
+import ca.shahrestani.ali.edu.vanier.tool.Util;
+
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,8 +13,8 @@ public class Treasurer extends User {
         super(name, UserType.TREASURER);
     }
 
-    public Treasurer(String id, String name, UserType type, ZonedDateTime createdAt, ZonedDateTime lastSystemAccess) {
-        super(id, name, type, createdAt, lastSystemAccess);
+    public Treasurer(String id, String name, ZonedDateTime createdAt, ZonedDateTime lastSystemAccess) {
+        super(id, name, UserType.TREASURER, createdAt, lastSystemAccess);
     }
 
     /**
@@ -81,7 +85,21 @@ public class Treasurer extends User {
     public static class TreasurerFactory extends UserFactory<Treasurer> {
         @Override
         public Treasurer load(String str, Map<String, Object> dependencies) {
-            return null;
+            // type, id, name, createdAt, lastSystemAccess
+
+            List<String> userData = BracketAwareSplitter.splitIgnoringBrackets(str);
+
+            String id = Util.requireStringNotEmpty(userData.get(1));
+            String name = Util.requireStringNotEmpty(userData.get(2));
+            ZonedDateTime createdAt = ZonedDateTime.parse(userData.get(3));
+            ZonedDateTime lastSystemAccess = ZonedDateTime.parse(userData.get(4));  // TODO: Handle null
+
+            return new Treasurer(
+                    id,
+                    name,
+                    createdAt,
+                    lastSystemAccess
+            );
         }
     }
 }

@@ -9,6 +9,7 @@ public class Main {
     public static Organization organization; // The current active organization
 
     public static void main(String[] args) {
+        registerBusinessFactories();
 
         // TODO: User input & interactivity...
         DataManager.OrganizationData orgData = new DataManager.OrganizationData("WHO");

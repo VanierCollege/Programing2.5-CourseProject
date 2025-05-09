@@ -1,9 +1,11 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
 import ca.shahrestani.ali.edu.vanier.tool.Savable;
 import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
+import javax.management.InvalidAttributeValueException;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -24,7 +26,7 @@ public class Project implements Savable {
         this.description = Objects.requireNonNull(description);
         this.fundingAccount = Objects.requireNonNullElse(fundingAccount, new BudgetAccount("Budget Account for " + name + " Project"));
         this.completedReimbursements = Objects.requireNonNullElse(completedReimbursements, new LinkedHashSet<>());
-        this.pendingReimbursements = Objects.requireNonNullElse(pendingReimbursements, new HashSet<>());;
+        this.pendingReimbursements = Objects.requireNonNullElse(pendingReimbursements, new HashSet<>());
         this.createdAt = Objects.requireNonNullElse(createdAt, Util.getNow());
     }
 
@@ -118,6 +120,7 @@ public class Project implements Savable {
     }
 
     public void setFundingAccount(BudgetAccount fundingAccount) {
+        Objects.requireNonNull(fundingAccount);
         this.fundingAccount = fundingAccount;
     }
 
@@ -143,7 +146,30 @@ public class Project implements Savable {
     public static class ProjectFactory implements SavableFactory<Project> {
         @Override
         public Project load(String str, Map<String, Object> dependencies) {
-            return null;
+            // name, description, fundingAccount, createdAt
+
+            List<String> projectData = BracketAwareSplitter.splitIgnoringBrackets(str);
+
+            String name = Util.requireStringNotEmpty(projectData.get(0));
+            String description = projectData.get(1);
+            String fundingAccountReference = projectData.get(2);
+            ZonedDateTime createdAt = ZonedDateTime.parse(projectData.get(3));
+
+            Account account = ((Map<String, Account>) dependencies.get("GLOBAL_ACCOUNTS")).getOrDefault(fundingAccountReference, null);
+            if (!(account instanceof BudgetAccount)) {
+                throw new IllegalArgumentException(
+                        String.format("Project (pNAME:%s) references an invalid account (aID:%s)", name, fundingAccountReference)
+                        );
+            }
+
+            return new Project(
+                    name,
+                    description,
+                    (BudgetAccount) account,
+                    null,
+                    null,
+                    createdAt
+            );
         }
     }
 }

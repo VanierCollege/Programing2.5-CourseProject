@@ -1,10 +1,12 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.BracketAwareSplitter;
 import ca.shahrestani.ali.edu.vanier.tool.Savable;
 import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -156,7 +158,50 @@ public class Reimbursement implements Savable, Comparable<Reimbursement> {
     public static class ReimbursementFactory implements SavableFactory<Reimbursement> {
         @Override
         public Reimbursement load(String str, Map<String, Object> dependencies) {
-            return null;
+            // id, status, description, amount, requester, treasurer, project, requestedAt, approvedAt
+
+            List<String> reimbursementData = BracketAwareSplitter.splitIgnoringBrackets(str);
+
+            String id = Util.requireStringNotEmpty(reimbursementData.get(0));
+            ReimbursementStatus status = ReimbursementStatus.valueOf(reimbursementData.get(1));
+            String description = reimbursementData.get(2);
+            double amount = Double.parseDouble(reimbursementData.get(3));
+            String requesterReference = reimbursementData.get(4);
+            String treasurerReference = reimbursementData.get(5); // TODO: Handle null
+            String projectReference = reimbursementData.get(6);
+            ZonedDateTime requestedAt = ZonedDateTime.parse(reimbursementData.get(7));
+            ZonedDateTime approvedAt = ZonedDateTime.parse(reimbursementData.get(8)); // TODO: Handle null
+
+            Project project = ((Map<String, Project>) dependencies.get("GLOBAL_PROJECTS")).getOrDefault(projectReference, null);
+            if (project == null) {
+                throw new IllegalArgumentException(
+                        String.format("Reimbursement (rID:%s) references an invalid project (pNAME:%s)", id, projectReference)
+                );
+            }
+            User requester = ((Map<String, User>) dependencies.get("GLOBAL_USERS")).getOrDefault(requesterReference, null);
+            if (!(requester instanceof Organizer)) {
+                throw new IllegalArgumentException(
+                        String.format("Reimbursement (rID:%s) references an invalid requester (uID:%s)", id, requesterReference)
+                );
+            }
+            User treasurer = ((Map<String, User>) dependencies.get("GLOBAL_USERS")).getOrDefault(treasurerReference, null);
+            if (!(treasurer instanceof Treasurer)) { // TODO: Handle null
+                throw new IllegalArgumentException(
+                        String.format("Reimbursement (rID:%s) references an invalid treasurer (uID:%s)", id, treasurerReference)
+                );
+            }
+
+            return new Reimbursement(
+                    id,
+                    status,
+                    description,
+                    amount,
+                    (Organizer) requester,
+                    (Treasurer) treasurer,
+                    project,
+                    requestedAt,
+                    approvedAt
+            );
         }
     }
 }
