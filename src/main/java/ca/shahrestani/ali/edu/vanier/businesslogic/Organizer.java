@@ -63,6 +63,8 @@ public class Organizer extends User {
                 ", type=" + type +
                 ", createdAt=" + createdAt +
                 ", lastSystemAccess=" + lastSystemAccess +
+//                ", completedReimbursements=" + completedReimbursements + // Recursive
+//                ", pendingReimbursements=" + pendingReimbursements + // Recursive
                 '}';
     }
 

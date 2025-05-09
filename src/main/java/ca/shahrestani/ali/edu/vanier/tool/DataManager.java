@@ -115,7 +115,11 @@ public final class DataManager {
             return factory.load(data, dependencies);
         } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException | DateTimeException e) {
             // Example warning
-            System.err.printf("Failed to load data of type %s: %s...%n", type, data.substring(0, Math.min(data.length(), 7)));
+            System.err.printf(
+                    "Failed to load data of type %s: %s...%n" +
+                    "(%s) %s) %n",
+                    type, data.substring(0, Math.min(data.length(), 30)),
+                    e.getClass().getSimpleName(), e.getMessage());
             return null;
         }
     }

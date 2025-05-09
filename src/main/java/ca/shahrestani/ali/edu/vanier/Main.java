@@ -22,7 +22,13 @@ public class Main {
             System.exit(1);
         }
 
+        // Small showcase of the system's loading data ability
+
         System.out.println(organization);
+        System.out.println(organization.getAccounts());
+        System.out.println(organization.getUsers());
+        System.out.println(organization.getProjects());
+        System.out.println(organization.getReimbursements());
     }
 
     /**

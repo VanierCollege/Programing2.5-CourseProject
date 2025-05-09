@@ -99,8 +99,8 @@ public class Project implements Savable {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", fundingAccount=" + fundingAccount +
-                ", completedReimbursements=" + completedReimbursements +
-                ", pendingReimbursements=" + pendingReimbursements +
+//                ", completedReimbursements=" + completedReimbursements + // Recursive
+//                ", pendingReimbursements=" + pendingReimbursements + // Recursive
                 ", createdAt=" + createdAt +
                 '}';
     }
