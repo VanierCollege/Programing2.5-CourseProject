@@ -49,6 +49,48 @@ public class OrganizationTest {
     }
 
     @Test
+    public void testAddAccount_new() {
+        Organization organization = new Organization("Test");
+        Account account = new PersonalAccount("Test");
+        Assertions.assertTrue(organization.addAccount(account));
+    }
+
+    @Test
+    public void testAddAccount_duplicate() {
+        Organization organization = new Organization("Test");
+        Account account = new PersonalAccount("Test");
+        organization.addAccount(account);
+        Assertions.assertFalse(organization.addAccount(account));
+    }
+
+    @Test
+    public void testAddAccount_null() {
+        Organization organization = new Organization("Test");
+        Assertions.assertThrows(NullPointerException.class, () -> organization.addAccount(null));
+    }
+
+    @Test
+    public void testRemoveAccount_true() {
+        Organization organization = new Organization("Test");
+        Account account = new PersonalAccount("Test");
+        organization.addAccount(account);
+        Assertions.assertTrue(organization.removeAccount(account));
+    }
+
+    @Test
+    public void testRemoveAccount_false() {
+        Organization organization = new Organization("Test");
+        Account account = new PersonalAccount("Test");
+        Assertions.assertFalse(organization.removeAccount(account));
+    }
+
+    @Test
+    public void testRemoveAccount_null() {
+        Organization organization = new Organization("Test");
+        Assertions.assertThrows(NullPointerException.class, () -> organization.removeAccount(null));
+    }
+
+    @Test
     public void testAddProject_new() {
         Organization organization = new Organization("Test");
         Project project = new Project("Test", "Test", null);
@@ -91,45 +133,53 @@ public class OrganizationTest {
     }
 
     @Test
-    public void testAddAccount_new() {
+    public void testAddReimbursement_new() {
         Organization organization = new Organization("Test");
-        Account account = new PersonalAccount("Test");
-        Assertions.assertTrue(organization.addAccount(account));
+        Organizer organizer = new Organizer("Test");
+        Project project = new Project("Test", "Test", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 0.00, organizer, project);
+        Assertions.assertTrue(organization.addReimbursement(reimbursement));
     }
 
     @Test
-    public void testAddAccount_duplicate() {
+    public void testAddReimbursement_duplicate() {
         Organization organization = new Organization("Test");
-        Account account = new PersonalAccount("Test");
-        organization.addAccount(account);
-        Assertions.assertFalse(organization.addAccount(account));
+        Organizer organizer = new Organizer("Test");
+        Project project = new Project("Test", "Test", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 0.00, organizer, project);
+        organization.addReimbursement(reimbursement);
+        Assertions.assertFalse(organization.addReimbursement(reimbursement));
     }
 
     @Test
-    public void testAddAccount_null() {
+    public void testAddReimbursement_null() {
         Organization organization = new Organization("Test");
-        Assertions.assertThrows(NullPointerException.class, () -> organization.addAccount(null));
+        Assertions.assertThrows(NullPointerException.class, () -> organization.addReimbursement(null));
     }
 
     @Test
-    public void testRemoveAccount_true() {
+    public void testRemoveReimbursement_true() {
         Organization organization = new Organization("Test");
-        Account account = new PersonalAccount("Test");
-        organization.addAccount(account);
-        Assertions.assertTrue(organization.removeAccount(account));
+        Organizer organizer = new Organizer("Test");
+        Project project = new Project("Test", "Test", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 0.00, organizer, project);
+        organization.addReimbursement(reimbursement);
+        Assertions.assertTrue(organization.removeReimbursement(reimbursement));
     }
 
     @Test
-    public void testRemoveAccount_false() {
+    public void testRemoveReimbursement_false() {
         Organization organization = new Organization("Test");
-        Account account = new PersonalAccount("Test");
-        Assertions.assertFalse(organization.removeAccount(account));
+        Organizer organizer = new Organizer("Test");
+        Project project = new Project("Test", "Test", null);
+        Reimbursement reimbursement = new Reimbursement("Test", 0.00, organizer, project);
+        Assertions.assertFalse(organization.removeReimbursement(reimbursement));
     }
 
     @Test
-    public void testRemoveAccount_null() {
+    public void testRemoveReimbursement_null() {
         Organization organization = new Organization("Test");
-        Assertions.assertThrows(NullPointerException.class, () -> organization.removeAccount(null));
+        Assertions.assertThrows(NullPointerException.class, () -> organization.removeReimbursement(null));
     }
 
 }

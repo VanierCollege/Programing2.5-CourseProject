@@ -157,8 +157,8 @@ public final class DataManager {
             Path projectsFile = orgDir.resolve("projects.obt.txt");
             Path reimbursementsFile = orgDir.resolve("reimbursements.obt.txt");
 
-            Files.createDirectory(usersDir);
-            Files.createDirectory(accountsDir);
+            Files.createDirectories(usersDir);
+            Files.createDirectories(accountsDir);
             if (Files.notExists(projectsFile)) {
                 Files.createFile(projectsFile);
             }

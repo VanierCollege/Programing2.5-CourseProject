@@ -1,6 +1,7 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Objects;
 
 public class Treasurer extends User {

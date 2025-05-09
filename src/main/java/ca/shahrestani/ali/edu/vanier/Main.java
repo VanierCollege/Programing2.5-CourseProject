@@ -16,20 +16,24 @@ public class Main {
             organization = orgData.loadData();
         } catch (IOException ioE) {
             System.err.println("Unable to load organization data!");
+            System.err.println(ioE.getMessage());
+            ioE.printStackTrace();
             System.exit(1);
         }
+
+        System.out.println(organization);
     }
 
     /**
      * Register the classes that will be saved (export/load ability)
      */
     public static void registerBusinessFactories() {
-//        DataManager.registerFactory(User.class, new User.UserFactory<>());
+        DataManager.registerFactory(User.class, new User.UserFactory<>());
         DataManager.registerFactory(Organizer.class, new Organizer.OrganizerFactory());
         DataManager.registerFactory(Treasurer.class, new Treasurer.TreasurerFactory());
         DataManager.registerFactory(SystemAdministrator.class, new SystemAdministrator.SystemAdministratorFactory());
 
-//        DataManager.registerFactory(Account.class, new Account.AccountFactory<>());
+        DataManager.registerFactory(Account.class, new Account.AccountFactory<>());
         DataManager.registerFactory(PersonalAccount.class, new PersonalAccount.PersonAccountFactory());
         DataManager.registerFactory(BudgetAccount.class, new BudgetAccount.BudgetAccountFactory());
 

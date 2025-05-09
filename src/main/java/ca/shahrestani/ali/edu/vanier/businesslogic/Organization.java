@@ -20,14 +20,15 @@ public class Organization implements Savable {
     }
 
     public Organization(String name, Set<User> users, Set<Project> projects, Set<Account> accounts, Set<Reimbursement> reimbursements) {
-        this.users = users;
-        this.accounts = accounts;
-        this.projects = projects;
-        this.reimbursements = reimbursements;
+        this.name = Objects.requireNonNull(name);
+        this.users = Objects.requireNonNullElse(users, new HashSet<>());
+        this.accounts = Objects.requireNonNullElse(accounts, new HashSet<>());
+        this.projects = Objects.requireNonNullElse(projects, new HashSet<>());
+        this.reimbursements = Objects.requireNonNullElse(reimbursements, new HashSet<>());
     }
 
     /**
-     * Add a user to the organization's list
+     * Add a user to the organization's list.
      *
      * @param user the user to add
      * @return whether the user is new (already added) or not
@@ -38,7 +39,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Remove a user from the organization's list
+     * Remove a user from the organization's list.
      *
      * @param user the user to add
      * @return whether the user was present or not
@@ -49,7 +50,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Add an account to the organization's list
+     * Add an account to the organization's list.
      *
      * @param account the account to add
      * @return whether the account is new (already added) or not
@@ -60,7 +61,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Remove an account from the organization's list
+     * Remove an account from the organization's list.
      *
      * @param account the account to add
      * @return whether the account was present or not
@@ -71,7 +72,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Add a project to the organization's list
+     * Add a project to the organization's list.
      *
      * @param project the project to add
      * @return whether the project is new (already added) or not
@@ -82,7 +83,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Remove a project from the organization's list
+     * Remove a project from the organization's list.
      *
      * @param project the project to add
      * @return whether the project was present or not
@@ -93,7 +94,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Add a reimbursement to the organization's list
+     * Add a reimbursement to the organization's list.
      *
      * @param reimbursement the reimbursement to add
      * @return whether the project is new (already added) or not
@@ -104,7 +105,7 @@ public class Organization implements Savable {
     }
 
     /**
-     * Remove a reimbursement from the organization's list
+     * Remove a reimbursement from the organization's list.
      *
      * @param reimbursement the reimbursement to add
      * @return whether the project was present or not
@@ -142,6 +143,10 @@ public class Organization implements Savable {
 
     public Set<Account> getAccounts() {
         return accounts;
+    }
+
+    public Set<Reimbursement> getReimbursements() {
+        return reimbursements;
     }
 
     /* SAVABLE METHODS */
