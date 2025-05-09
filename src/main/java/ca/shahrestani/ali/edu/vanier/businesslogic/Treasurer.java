@@ -79,7 +79,7 @@ public class Treasurer extends User {
 
     public static class TreasurerFactory extends UserFactory<Treasurer> {
         @Override
-        public Treasurer load(String str) {
+        public Treasurer load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

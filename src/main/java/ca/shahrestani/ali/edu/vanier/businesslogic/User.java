@@ -1,10 +1,12 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
+import ca.shahrestani.ali.edu.vanier.tool.DataManager;
 import ca.shahrestani.ali.edu.vanier.tool.Savable;
 import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class User implements Savable, Comparable<User> {
@@ -90,8 +92,15 @@ public abstract class User implements Savable, Comparable<User> {
 
     /* SAVABLE METHODS */
 
-    public abstract static class UserFactory<T extends User> implements SavableFactory<T> {
+    public static class UserFactory<T extends User> implements SavableFactory<T> {
         @Override
-        public abstract T load(String str);
+        public T load(String str, Map<String, Object> dependencies) {
+            String type = Util.elementAt(str.trim().split(","), 0, "INVALID");
+            if (type.equals("INVALID")) {
+                return null;
+            } else {
+                throw new DataManager.SwitchFactorySignalException(type);
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package ca.shahrestani.ali.edu.vanier.tool;
 
+import java.util.Map;
+
 /**
  * Standardize method to allow class data loading (factory construction)
  */
@@ -10,5 +12,5 @@ public interface SavableFactory<T extends Savable> {
      * @param str the data string
      * @return the newly constructed object of type T
      */
-    T load(String str);
+    T load(String str, Map<String, Object> dependencies);
 }

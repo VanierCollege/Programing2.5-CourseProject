@@ -6,6 +6,7 @@ import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Objects;
 
 public class Transaction implements Savable, Comparable<Transaction> {
@@ -90,7 +91,7 @@ public class Transaction implements Savable, Comparable<Transaction> {
 
     public static class TransactionFactory implements SavableFactory<Transaction> {
         @Override
-        public Transaction load(String str) {
+        public Transaction load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

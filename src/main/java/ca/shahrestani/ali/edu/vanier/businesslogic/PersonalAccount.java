@@ -1,6 +1,7 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
 import java.util.List;
+import java.util.Map;
 
 public class PersonalAccount extends Account {
     public PersonalAccount(String name) {
@@ -36,7 +37,7 @@ public class PersonalAccount extends Account {
 
     public static class PersonAccountFactory extends Account.AccountFactory<PersonalAccount> {
         @Override
-        public PersonalAccount load(String str) {
+        public PersonalAccount load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

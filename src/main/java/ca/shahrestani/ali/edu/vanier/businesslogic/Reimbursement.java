@@ -5,6 +5,7 @@ import ca.shahrestani.ali.edu.vanier.tool.SavableFactory;
 import ca.shahrestani.ali.edu.vanier.tool.Util;
 
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Objects;
 
 public class Reimbursement implements Savable, Comparable<Reimbursement> {
@@ -154,7 +155,7 @@ public class Reimbursement implements Savable, Comparable<Reimbursement> {
 
     public static class ReimbursementFactory implements SavableFactory<Reimbursement> {
         @Override
-        public Reimbursement load(String str) {
+        public Reimbursement load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

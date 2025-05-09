@@ -52,7 +52,7 @@ public class SystemAdministrator extends User {
 
     public static class SystemAdministratorFactory extends UserFactory<SystemAdministrator> {
         @Override
-        public SystemAdministrator load(String str) {
+        public SystemAdministrator load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

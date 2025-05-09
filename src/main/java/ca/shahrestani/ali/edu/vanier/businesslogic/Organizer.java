@@ -72,7 +72,7 @@ public class Organizer extends User {
 
     public static class OrganizerFactory extends UserFactory<Organizer> {
         @Override
-        public Organizer load(String str) {
+        public Organizer load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }

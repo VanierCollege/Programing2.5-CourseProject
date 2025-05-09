@@ -1,6 +1,7 @@
 package ca.shahrestani.ali.edu.vanier.businesslogic;
 
 import java.util.List;
+import java.util.Map;
 
 public class BudgetAccount extends Account {
     private final double initialFund;
@@ -46,7 +47,7 @@ public class BudgetAccount extends Account {
 
     public static class BudgetAccountFactory extends Account.AccountFactory<BudgetAccount> {
         @Override
-        public BudgetAccount load(String str) {
+        public BudgetAccount load(String string, Map<String, Object> dependencies) {
             return null;
         }
     }

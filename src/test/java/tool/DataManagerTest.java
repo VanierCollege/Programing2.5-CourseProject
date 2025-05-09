@@ -30,7 +30,7 @@ public class DataManagerTest {
         DataManager.registerFactory(classInput, factoryInput);
         System.out.printf(DataManager.getFactories().keySet().toString());
 
-        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput, ""));
-        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput.getSimpleName(), ""));
+        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput, "", null));
+        Assertions.assertDoesNotThrow(() -> DataManager.loadSavable(classInput.getSimpleName(), "", null));
     }
 }

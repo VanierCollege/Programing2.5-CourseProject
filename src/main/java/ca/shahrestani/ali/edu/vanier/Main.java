@@ -3,8 +3,21 @@ package ca.shahrestani.ali.edu.vanier;
 import ca.shahrestani.ali.edu.vanier.businesslogic.*;
 import ca.shahrestani.ali.edu.vanier.tool.DataManager;
 
+import java.io.IOException;
+
 public class Main {
+    public static Organization organization; // The current active organization
+
     public static void main(String[] args) {
+
+        // TODO: User input & interactivity...
+        DataManager.OrganizationData orgData = new DataManager.OrganizationData("WHO");
+        try {
+            organization = orgData.loadData();
+        } catch (IOException ioE) {
+            System.err.println("Unable to load organization data!");
+            System.exit(1);
+        }
     }
 
     /**

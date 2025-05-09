@@ -128,7 +128,7 @@ public class Project implements Savable {
 
     public static class ProjectFactory implements SavableFactory<Project> {
         @Override
-        public Project load(String str) {
+        public Project load(String str, Map<String, Object> dependencies) {
             return null;
         }
     }
