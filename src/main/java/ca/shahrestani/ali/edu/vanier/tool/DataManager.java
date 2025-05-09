@@ -184,6 +184,7 @@ public final class DataManager {
 
             // 5. Inject Reimbursement to Organizer and Project
 
+            injectReimbursements();
 
             return new Organization(
                     orgName,
