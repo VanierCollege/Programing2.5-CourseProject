@@ -32,7 +32,7 @@ public class Main {
     }
 
     /**
-     * Register the classes that will be saved (export/load ability)
+     * Register the classes that will be saved (export/load ability).
      */
     public static void registerBusinessFactories() {
         DataManager.registerFactory(User.class, new User.UserFactory<>());

@@ -352,7 +352,7 @@ public final class DataManager {
         }
 
         /**
-         * Inject reimbursements into corresponding lists in Organizer and Project objects
+         * Inject reimbursements into corresponding lists in Organizer and Project objects.
          */
         private void injectReimbursements() {
             for (Reimbursement reimbursement : reimbursementMap.values()) {

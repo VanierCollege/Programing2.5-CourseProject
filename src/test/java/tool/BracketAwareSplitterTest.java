@@ -13,7 +13,7 @@ import java.util.List;
 public class BracketAwareSplitterTest {
 
     /**
-     * Help method to ensure output of failed tests can help distinguish list commas from literal commas
+     * Helper method to ensure output of failed tests can help distinguish list commas from literal commas
      * 
      * @param expected the expected list of strings
      * @param actual the actual list of strings
@@ -299,10 +299,6 @@ public class BracketAwareSplitterTest {
                 ""
         );
         List<String> result = BracketAwareSplitter.splitIgnoringBrackets(input);
-
-        // Help distinguish between list separator and actual commas
-        expected = expected.stream().map(str -> str.replace(",", "$")).toList();
-        result = result.stream().map(str -> str.replace(",", "$")).toList();
 
         assertEqualsCommaList(expected, result);
     }
